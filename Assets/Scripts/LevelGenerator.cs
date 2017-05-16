@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
-	private int levelSize = 10;
+	private int levelSize = 5;
 	private Transform startingModule;
 	private Random rnd;
+	private bool started;
 
 	public Transform startRoom1;
 	public Transform endRoom1;
@@ -14,10 +15,12 @@ public class LevelGenerator : MonoBehaviour {
 	public List<Transform> modules;
 	public List<Transform> corridors;
 
+	public List<Transform> placedModules;
 	private List<Transform> freeExits;
 
 	// Use this for initialization
 	void Start () {
+		placedModules = new List<Transform> ();
 		freeExits = new List<Transform> ();
 		startingModule = Instantiate (startRoom1);
 		if (!(startingModule == null)) {
@@ -26,12 +29,7 @@ public class LevelGenerator : MonoBehaviour {
 		}
 	}
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-	void GenerateLevel(){
+	void GenerateLevel() {
 		int Iterations = 0;
 		while (Iterations < levelSize) {
 			List<Transform> newExits = new List<Transform> ();
@@ -43,9 +41,11 @@ public class LevelGenerator : MonoBehaviour {
 					List<Transform> moduleExits = getExits (newModule);
 					Transform newExit = GetRandomExit (moduleExits);
 					matchExits (exit, newExit);
-					if (checkClip(newModule)) {
+					bool b = checkClip (newModule);
+					if (b) {
 						moduleExits.Remove (newExit);
 						newExits.AddRange (moduleExits);
+						placedModules.Add (newModule);
 						checkClipping = true;
 					}
 					i++;
@@ -54,6 +54,10 @@ public class LevelGenerator : MonoBehaviour {
 			freeExits = newExits;
 			Iterations++;
 		}
+	}
+
+	IEnumerator wait(){
+		yield return new WaitForSeconds(5);
 	}
 
 	Transform GetRandomModule(string s){
@@ -80,18 +84,22 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	bool checkClip(Transform newModule){
-		GameObject c = newModule.gameObject;
-		CheckCollision check = (CheckCollision) c.GetComponent (typeof(CheckCollision));
-		if (check == null) {
-			Debug.Log ("ERROR cannot find collision script");
-		}
-		if (check.checkClipping () == true) {
-			Destroy (newModule);
-			Debug.Log ("collision avoided");
-			return false;
-		} else {
-			return true;
-		}
+		//GameObject c = newModule.gameObject;
+		//CheckCollision check = (CheckCollision) c.GetComponent (typeof(CheckCollision));
+		//if (check == null) {
+		//	Debug.Log ("ERROR cannot find collision script");
+		//	return false;
+		//} else {
+
+		if (checkModuleClip ()) {
+				Destroy (newModule.gameObject);
+				Debug.Log ("collision avoided");
+				return false;
+			} else {
+				Debug.Log ("collision Fine, collision check: " + newModule.gameObject);
+				return true;
+			}
+		//}
 	}
 
 	List<Transform> getExits(Transform module){
@@ -104,4 +112,27 @@ public class LevelGenerator : MonoBehaviour {
 		}
 		return newExits;
 	}
+
+	bool checkModuleClip(){
+		foreach (Transform module in placedModules) {
+			GameObject c = module.gameObject;
+			CheckCollision check = (CheckCollision) c.GetComponent (typeof(CheckCollision));
+			if (check.checkClipping ()) {
+				Debug.Log ("Collision found woo");
+				resetClip ();
+				return true;
+			}
+		}
+		Debug.Log ("No collision found lol");
+		return false;
+	}
+
+	void resetClip(){
+		foreach (Transform module in placedModules) {
+			GameObject c = module.gameObject;
+			CheckCollision check = (CheckCollision)c.GetComponent (typeof(CheckCollision));
+			check.setClipping (false);
+		}
+	}
+
 }
