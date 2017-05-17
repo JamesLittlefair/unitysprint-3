@@ -9,13 +9,14 @@ public class FireTrap : MonoBehaviour {
 	private ParticleSystem[] emissions;
 	private GameObject fireLight;
 	private bool fireEnabled;
+	public int delay = 0;
 
 	// Use this for initialization
 	void Start () {
 		fire = this.transform.Find ("FireComplex").gameObject;
 		fireLight = fire.transform.Find ("Light").gameObject;
 		fireEnabled = true;
-		i = 0;
+		i = delay;
 		emissions = fire.GetComponentsInChildren<ParticleSystem> ();
 	}
 

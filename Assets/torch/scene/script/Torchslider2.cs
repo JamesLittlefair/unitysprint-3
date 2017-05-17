@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Torchslider2 : MonoBehaviour {
+	/*
 	public GameObject TorcheObj;
 	public Camera MainCamera;
 	public GUISkin SkinSlider;
@@ -29,4 +30,5 @@ public class Torchslider2 : MonoBehaviour {
 			i.GetComponent<Torchelight>().IntensityLight=Intensity_Light;
 		}
 	}
+	*/
 }

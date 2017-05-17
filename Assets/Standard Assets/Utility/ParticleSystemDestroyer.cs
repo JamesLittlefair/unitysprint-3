@@ -11,15 +11,16 @@ namespace UnityStandardAssets.Utility
         // then shuts off emission, and waits for all particles to expire
         // before destroying the gameObject
 
-        public float minDuration = 8;
-        public float maxDuration = 10;
+        //public float minDuration = 8;
+        //public float maxDuration = 10;
 
-        private float m_MaxLifetime;
-        private bool m_EarlyStop;
+        //private float m_MaxLifetime;
+        //private bool m_EarlyStop;
 
 
         private IEnumerator Start()
         {
+			/*
             var systems = GetComponentsInChildren<ParticleSystem>();
 
             // find out the maximum lifetime of any particles in this effect
@@ -50,13 +51,15 @@ namespace UnityStandardAssets.Utility
             yield return new WaitForSeconds(m_MaxLifetime);
 
             Destroy(gameObject);
+            */
+			return null;
         }
 
 
         public void Stop()
         {
             // stops the particle system early
-            m_EarlyStop = true;
+            //m_EarlyStop = true;
         }
     }
 }
