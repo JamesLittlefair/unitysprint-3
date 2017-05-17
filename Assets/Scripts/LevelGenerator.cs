@@ -117,7 +117,7 @@ public class LevelGenerator : MonoBehaviour {
 		foreach (Transform module in placedModules) {
 			GameObject c = module.gameObject;
 			CheckCollision check = (CheckCollision) c.GetComponent (typeof(CheckCollision));
-			if (check.checkClipping ()) {
+			if (check.clipping) {
 				Debug.Log ("Collision found woo");
 				resetClip ();
 				return true;

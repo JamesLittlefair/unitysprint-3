@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CheckCollision : MonoBehaviour {
 	
-	private bool clipping;
+	public bool clipping;
 
 	// Use this for initialization
 	void Start () {
