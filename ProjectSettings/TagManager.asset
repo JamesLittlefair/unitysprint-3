@@ -10,6 +10,12 @@ TagManager:
   - StartRoom
   - Exit
   - FloorPlan
+  - Fire
+  - Walls
+  - Trap
+  - Chest
+  - PropLarge
+  - PropSmall
   layers:
   - Default
   - TransparentFX

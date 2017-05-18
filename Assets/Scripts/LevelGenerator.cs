@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
-	private int levelSize = 250;
+	private int levelSize = 25;
 	public int noTraps = 10;
 	public int noChests = 20;
 
+	private Transform finalRoom;
 	private Transform startingModule;
 	private Random rnd;
+
 	private bool genLevel = false;
 	private bool genFinished = false;
+	private bool checkFinalRoom = false;
+
+	private Transform furtherestExit;
 	private Transform lastPlacedModule;
 	private Transform lastUsedExit;
 	private List<Transform> lastModuleExits;
+
 	private int Iterations = 0;
 	private int n = 0;
 	private int frames = 0;
@@ -22,29 +28,43 @@ public class LevelGenerator : MonoBehaviour {
 	public Transform startRoom1;
 	public Transform endRoom1;
 	public Transform world;
+	public Transform endCap;
 
 	public List<Transform> modules;
 	public List<Transform> corridors;
 	public List<Transform> traps;
 
+	public Transform chest;
+	public Transform chestLarge;
+	public Transform chestTrap;
+
 	private List<Transform> placedModules;
 	private List<Transform> freeExits;
+	private List<Transform> finalExits;
+
+	private List<Transform> trapLocations;
+	private List<Transform> chestLocations;
 
 	// Use this for initialization
 	void Start () {
+		GenerateLevel ();
+	}
+
+	void GenerateLevel() {
 		placedModules = new List<Transform> ();
 		freeExits = new List<Transform> ();
+		finalExits = new List<Transform> ();
 		startingModule = Instantiate (startRoom1);
+		startingModule.name = startingModule.name + " MODULE " + n;
+		startingModule.SetParent (world);
+		n++;
+		Debug.Log ("Placing Module " + startingModule);
 		if (!(startingModule == null)) {
-			freeExits.AddRange (getExits(startingModule));
+			lastModuleExits = (getExits(startingModule));
 			lastPlacedModule = startingModule;
 			lastUsedExit = null;
 			genLevel = true;
 		}
-	}
-
-	void GenerateLevel() {
-		 
 	}
 
 	void Update(){
@@ -52,7 +72,9 @@ public class LevelGenerator : MonoBehaviour {
 		if (frames % 5 == 0) {
 			if (genLevel) {
 				if (checkClip (lastPlacedModule)) {
-					placedModules.Add (lastPlacedModule);
+					if (!(lastPlacedModule == null)) {
+						placedModules.Add (lastPlacedModule);
+					}
 					lastPlacedModule = null;
 					if (!(lastModuleExits == null)) {
 						freeExits.AddRange (lastModuleExits);
@@ -83,9 +105,9 @@ public class LevelGenerator : MonoBehaviour {
 						Iterations++;
 
 					} else if (Iterations >= levelSize) {
+						finalExits = freeExits;
 						genLevel = false;
 						genFinished = true;
-						populateModules ();
 					}
 				} else {
 					Debug.Log ("Module Destroyed " + lastPlacedModule);
@@ -100,19 +122,43 @@ public class LevelGenerator : MonoBehaviour {
 			}
 
 			if (genFinished) {
-				if (freeExits.Count == 0) {
-					Debug.Log ("ERROR no free exits");
+				if (finalExits.Count == 0) {
+					Debug.Log ("ERROR cannot place final exit");
 					genFinished = false;
 					resetGen ();
 					return;
 				}
-				Transform furtherestExit = GetRandomExit (freeExits);
-				float distance = (furtherestExit.position - startRoom1.position).magnitude;
-				foreach (Transform exit in freeExits) {
-					float newDistance = (exit.position - startRoom1.position).magnitude;
+				furtherestExit = GetRandomExit (finalExits);
+				float distance = (furtherestExit.position - startingModule.position).magnitude;
+				foreach (Transform exit in finalExits) {
+					float newDistance = (exit.position - startingModule.position).magnitude;
 					if (newDistance > distance) {
-
+						furtherestExit = exit;
+						distance = newDistance;
 					}
+				}
+				finalRoom = Instantiate (endRoom1);
+				finalRoom.name = finalRoom.name + " MODULE " + n;
+				finalRoom.SetParent (world);
+				n++;
+				Debug.Log ("Placing Module " + finalRoom);
+				matchExits (furtherestExit, GetRandomExit(getExits(finalRoom)));
+
+				finalExits.Remove (furtherestExit);
+				genFinished = false;
+				checkFinalRoom = true;
+			}
+
+			if (checkFinalRoom) {
+				if (checkClip (finalRoom)) {
+					placedModules.Add (finalRoom);
+					freeExits.Remove (furtherestExit);
+					checkFinalRoom = false;
+					populateModules ();
+				} else {
+					DestroyImmediate (finalRoom.gameObject);
+					genFinished = true;
+					checkFinalRoom = false;
 				}
 			}
 		}
@@ -120,10 +166,35 @@ public class LevelGenerator : MonoBehaviour {
 
 	void populateModules(){
 
+		foreach (Transform module in placedModules) {
+			if (!(module == null)) {
+				Transform m = module.Find ("Walls");
+				if (m == null) {
+					Debug.Log ("Error could not find walls " + module);
+				}
+				m.gameObject.SetActive (true);
+			}
+		}
+
+		foreach (Transform exit in freeExits) {
+			if (!(exit == null)) {
+				Transform cap = Instantiate (endCap);
+				cap.name = cap.name + " MODULE " + n;
+				cap.SetParent (world);
+				n++;
+				Debug.Log ("Placing Module " + cap);
+				matchExits (exit, GetRandomExit(getExits(cap)));
+			}
+		}
+
+
 	}
 
 	void resetGen(){
-
+		foreach(Transform module in placedModules){
+			DestroyImmediate (module.gameObject);
+			GenerateLevel ();
+		}
 	}
 
 	IEnumerator wait(){
