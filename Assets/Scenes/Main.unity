@@ -211,29 +211,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3d627cd82effb47b44a3ed09e577f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRoom1: {fileID: 4837160973157482, guid: 7341793161e10b040bbdf73319d6076a, type: 2}
+  startRoom1: {fileID: 4297854738169220, guid: 3c35dac725474464d98ef3b0f5a27d08, type: 2}
   endRoom1: {fileID: 0}
   modules:
-  - {fileID: 4076231052397868, guid: 8fbda77a456a8ce45afae1b45de29d00, type: 2}
-  - {fileID: 4185709521304372, guid: 063f1e44d19e64d4785840db180dd370, type: 2}
-  - {fileID: 4531932108706306, guid: 8d12a46d449663b488c514e0bf7cfb2c, type: 2}
-  - {fileID: 4550358648172444, guid: a93ec818c0748c04b80776eb24b35b54, type: 2}
-  - {fileID: 4700329092910032, guid: 7518a9f027c8aad489f98f42183a94ff, type: 2}
-  - {fileID: 4315445620950218, guid: 6598e6872c51b9c4ca837022075ebbb4, type: 2}
-  - {fileID: 4603275909824130, guid: ec1b0d6b200654a49a14e0cfbe1423d4, type: 2}
-  - {fileID: 4582076409816666, guid: 6fac2ac17a86bd44293a113105aa34c5, type: 2}
-  - {fileID: 4904083143487062, guid: 02a97791a1d39d94b92e5bd22f19bc9d, type: 2}
-  - {fileID: 4184136352732700, guid: 4eb41a56cf3f3d7458ad663d238007a0, type: 2}
-  - {fileID: 4931889334679062, guid: 37abf98516d5c2a4d855b30ea31d6cb2, type: 2}
-  - {fileID: 4452752517378776, guid: 57d093aee72623e44861801f8c61b522, type: 2}
-  - {fileID: 4716107316913304, guid: 800cd9af7242d3041af185288573f8d3, type: 2}
+  - {fileID: 4297854738169220, guid: 3c35dac725474464d98ef3b0f5a27d08, type: 2}
   corridors:
-  - {fileID: 4076231052397868, guid: 8fbda77a456a8ce45afae1b45de29d00, type: 2}
-  - {fileID: 4185709521304372, guid: 063f1e44d19e64d4785840db180dd370, type: 2}
-  - {fileID: 4531932108706306, guid: 8d12a46d449663b488c514e0bf7cfb2c, type: 2}
-  - {fileID: 4550358648172444, guid: a93ec818c0748c04b80776eb24b35b54, type: 2}
-  - {fileID: 4700329092910032, guid: 7518a9f027c8aad489f98f42183a94ff, type: 2}
-  - {fileID: 4315445620950218, guid: 6598e6872c51b9c4ca837022075ebbb4, type: 2}
+  - {fileID: 4017388737949730, guid: 2a15cea1d55aaa349a28cc6eb8d905c1, type: 2}
   placedModules: []
   treasurePrefab: {fileID: 4144536517665312, guid: 6b863f487accb254d8a0478a8f6d1bcb,
     type: 2}
@@ -380,6 +363,10 @@ Prefab:
     - target: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
