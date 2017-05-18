@@ -235,7 +235,7 @@ MonoBehaviour:
   - {fileID: 4700329092910032, guid: 7518a9f027c8aad489f98f42183a94ff, type: 2}
   - {fileID: 4315445620950218, guid: 6598e6872c51b9c4ca837022075ebbb4, type: 2}
   placedModules: []
-  treasurePrefab: {fileID: 4527692931696924, guid: 6b863f487accb254d8a0478a8f6d1bcb,
+  treasurePrefab: {fileID: 4144536517665312, guid: 6b863f487accb254d8a0478a8f6d1bcb,
     type: 2}
   trapPrefabs:
   - {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
