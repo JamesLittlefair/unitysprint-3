@@ -321,11 +321,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSize: 5
-  startRoom1: {fileID: 4297854738169220, guid: 3c35dac725474464d98ef3b0f5a27d08, type: 2}
-  endRoom1: {fileID: 4166376507127192, guid: f07fc94d259633841ae033882f763d49, type: 2}
+  startRoom1: {fileID: 4950360995909884, guid: 3c35dac725474464d98ef3b0f5a27d08, type: 2}
+  endRoom1: {fileID: 4419726552953130, guid: f07fc94d259633841ae033882f763d49, type: 2}
   modules:
-  - {fileID: 4297854738169220, guid: 3c35dac725474464d98ef3b0f5a27d08, type: 2}
-  - {fileID: 4054856151518842, guid: f3d44324526cb6e40b2020f188947add, type: 2}
+  - {fileID: 4950360995909884, guid: 3c35dac725474464d98ef3b0f5a27d08, type: 2}
+  - {fileID: 4024033617720102, guid: f3d44324526cb6e40b2020f188947add, type: 2}
   corridors:
   - {fileID: 4814570128851742, guid: 2a15cea1d55aaa349a28cc6eb8d905c1, type: 2}
   placedModules: []
