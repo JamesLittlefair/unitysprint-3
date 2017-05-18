@@ -91,6 +91,76 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &214277462
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1 &218983097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 218983098}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &218983098
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 218983097}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 850465017}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &283203109
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +187,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &625723811
 GameObject:
@@ -209,8 +279,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3d627cd82effb47b44a3ed09e577f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noTraps: 10
+  noChests: 20
   startRoom1: {fileID: 4034182380405352, guid: 430d5afbcae7ef848ac9fbf7d04c791a, type: 2}
-  endRoom1: {fileID: 0}
+  endRoom1: {fileID: 4460078039819768, guid: 2111b2700259eff4aa1b33e84e770b7b, type: 2}
+  world: {fileID: 218983098}
   modules:
   - {fileID: 4076231052397868, guid: 8fbda77a456a8ce45afae1b45de29d00, type: 2}
   - {fileID: 4185709521304372, guid: 063f1e44d19e64d4785840db180dd370, type: 2}
@@ -232,7 +305,7 @@ MonoBehaviour:
   - {fileID: 4550358648172444, guid: a93ec818c0748c04b80776eb24b35b54, type: 2}
   - {fileID: 4700329092910032, guid: 7518a9f027c8aad489f98f42183a94ff, type: 2}
   - {fileID: 4315445620950218, guid: 6598e6872c51b9c4ca837022075ebbb4, type: 2}
-  placedModules: []
+  traps: []
 --- !u!4 &729994860
 Transform:
   m_ObjectHideFlags: 0
@@ -273,6 +346,7 @@ Transform:
   m_Children:
   - {fileID: 729994860}
   - {fileID: 1236612294}
+  - {fileID: 218983098}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -389,5 +463,5 @@ Transform:
   m_Children:
   - {fileID: 625723813}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
