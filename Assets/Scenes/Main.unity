@@ -237,6 +237,8 @@ MonoBehaviour:
   placedModules: []
   treasurePrefab: {fileID: 4527692931696924, guid: 6b863f487accb254d8a0478a8f6d1bcb,
     type: 2}
+  trapPrefabs:
+  - {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
 --- !u!4 &729994860
 Transform:
   m_ObjectHideFlags: 0

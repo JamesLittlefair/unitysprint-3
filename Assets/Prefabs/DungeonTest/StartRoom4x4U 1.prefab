@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 65171626897193634}
   - component: {fileID: 114523515453150522}
   m_Layer: 0
-  m_Name: StartRoom Treasure
+  m_Name: StartRoom4x4U 1
   m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
