@@ -22,7 +22,7 @@ public class CheckCollision : MonoBehaviour {
 	void OnTriggerEnter (Collider collisionInfo) {
 		if ((collisionInfo.tag == "FloorPlan") && !(collisionInfo.transform.parent.Equals(this.transform))) {
 			clipping = true;
-			Debug.Log("Collision detected " + this.transform);
+			Debug.Log("Collision detected: " + this.transform + " with " + collisionInfo.transform.parent);
 		}
 	}
 }

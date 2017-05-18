@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
-	private int levelSize = 5;
+	private int levelSize = 250;
+	public int noTraps = 10;
+	public int noChests = 20;
+
 	private Transform startingModule;
 	private Random rnd;
-	private bool started;
+	private bool genLevel = false;
+	private bool genFinished = false;
+	private Transform lastPlacedModule;
+	private Transform lastUsedExit;
+	private List<Transform> lastModuleExits;
+	private int Iterations = 0;
+	private int n = 0;
+	private int frames = 0;
 
 	public Transform startRoom1;
 	public Transform endRoom1;
+	public Transform world;
 
 	public List<Transform> modules;
 	public List<Transform> corridors;
+	public List<Transform> traps;
 
-	public List<Transform> placedModules;
+	private List<Transform> placedModules;
 	private List<Transform> freeExits;
 
 	// Use this for initialization
@@ -25,35 +37,93 @@ public class LevelGenerator : MonoBehaviour {
 		startingModule = Instantiate (startRoom1);
 		if (!(startingModule == null)) {
 			freeExits.AddRange (getExits(startingModule));
-			GenerateLevel();
+			lastPlacedModule = startingModule;
+			lastUsedExit = null;
+			genLevel = true;
 		}
 	}
 
 	void GenerateLevel() {
-		int Iterations = 0;
-		while (Iterations < levelSize) {
-			List<Transform> newExits = new List<Transform> ();
-			foreach (Transform exit in freeExits) {
-				bool checkClipping = false;
-				int i = 0;
-				while ((!checkClipping) && (i < 10)) {
-					Transform newModule = Instantiate (GetRandomModule (exit.parent.tag));
-					List<Transform> moduleExits = getExits (newModule);
-					Transform newExit = GetRandomExit (moduleExits);
-					matchExits (exit, newExit);
-					bool b = checkClip (newModule);
-					if (b) {
-						moduleExits.Remove (newExit);
-						newExits.AddRange (moduleExits);
-						placedModules.Add (newModule);
-						checkClipping = true;
+		 
+	}
+
+	void Update(){
+		frames++;
+		if (frames % 5 == 0) {
+			if (genLevel) {
+				if (checkClip (lastPlacedModule)) {
+					placedModules.Add (lastPlacedModule);
+					lastPlacedModule = null;
+					if (!(lastModuleExits == null)) {
+						freeExits.AddRange (lastModuleExits);
 					}
-					i++;
+					if (freeExits.Count == 0) {
+						Debug.Log ("ERROR no free exits");
+						genLevel = false;
+						resetGen ();
+						return;
+					}
+					if (Iterations < levelSize) {
+					
+						Transform exit = GetRandomExit (freeExits);
+						Transform newModule = Instantiate (GetRandomModule (exit.parent.tag));
+						newModule.name = newModule.name + " MODULE " + n;
+						newModule.SetParent (world);
+						n++;
+						Debug.Log ("Placing Module " + newModule);
+						List<Transform> moduleExits = getExits (newModule);
+						Transform newExit = GetRandomExit (moduleExits);
+						matchExits (exit, newExit);
+						lastModuleExits = moduleExits;
+						moduleExits.Remove (newExit);
+
+						lastUsedExit = exit;
+						freeExits.Remove (exit);
+						lastPlacedModule = newModule;
+						Iterations++;
+
+					} else if (Iterations >= levelSize) {
+						genLevel = false;
+						genFinished = true;
+						populateModules ();
+					}
+				} else {
+					Debug.Log ("Module Destroyed " + lastPlacedModule);
+					DestroyImmediate (lastPlacedModule.gameObject);
+					lastPlacedModule = null;
+					lastModuleExits = null;
+					if (!(lastUsedExit == null)) {
+						freeExits.Add (lastUsedExit);
+					}
+					Iterations--;
 				}
 			}
-			freeExits = newExits;
-			Iterations++;
+
+			if (genFinished) {
+				if (freeExits.Count == 0) {
+					Debug.Log ("ERROR no free exits");
+					genFinished = false;
+					resetGen ();
+					return;
+				}
+				Transform furtherestExit = GetRandomExit (freeExits);
+				float distance = (furtherestExit.position - startRoom1.position).magnitude;
+				foreach (Transform exit in freeExits) {
+					float newDistance = (exit.position - startRoom1.position).magnitude;
+					if (newDistance > distance) {
+
+					}
+				}
+			}
 		}
+	}
+
+	void populateModules(){
+
+	}
+
+	void resetGen(){
+
 	}
 
 	IEnumerator wait(){
@@ -69,6 +139,10 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	Transform GetRandomExit(List<Transform> e){
+		if (e.Count == 0) {
+			Debug.Log ("ERROR no free exits");
+			return null;
+		}
 		Transform randomExit = e [Random.Range (0, e.Count)];
 		return randomExit;
 	}
@@ -84,6 +158,10 @@ public class LevelGenerator : MonoBehaviour {
 	}
 
 	bool checkClip(Transform newModule){
+		if (newModule == null) {
+			return true;
+		}
+
 		//GameObject c = newModule.gameObject;
 		//CheckCollision check = (CheckCollision) c.GetComponent (typeof(CheckCollision));
 		//if (check == null) {
@@ -91,9 +169,8 @@ public class LevelGenerator : MonoBehaviour {
 		//	return false;
 		//} else {
 
-		if (checkModuleClip ()) {
-				Destroy (newModule.gameObject);
-				Debug.Log ("collision avoided");
+		if (checkModuleClip(newModule)) {
+				Debug.Log ("collision avoided"  + newModule.gameObject);
 				return false;
 			} else {
 				Debug.Log ("collision Fine, collision check: " + newModule.gameObject);
@@ -113,25 +190,30 @@ public class LevelGenerator : MonoBehaviour {
 		return newExits;
 	}
 
-	bool checkModuleClip(){
-		foreach (Transform module in placedModules) {
-			GameObject c = module.gameObject;
-			CheckCollision check = (CheckCollision) c.GetComponent (typeof(CheckCollision));
-			if (check.clipping) {
-				Debug.Log ("Collision found woo");
-				resetClip ();
-				return true;
+	bool checkModuleClip(Transform newModule){
+		List<Transform> modulesToCheck = placedModules;
+		modulesToCheck.Add (newModule);
+		foreach (Transform module in modulesToCheck) {
+			if (!(module == null)) {
+				GameObject c = module.gameObject;
+				CheckCollision check = (CheckCollision)c.GetComponent (typeof(CheckCollision));
+				if (check.checkClipping ()) {
+					resetClip ();
+					return true;
+				}
 			}
 		}
-		Debug.Log ("No collision found lol");
+
 		return false;
 	}
 
 	void resetClip(){
 		foreach (Transform module in placedModules) {
-			GameObject c = module.gameObject;
-			CheckCollision check = (CheckCollision)c.GetComponent (typeof(CheckCollision));
-			check.setClipping (false);
+			if (!(module == null)) {
+				GameObject c = module.gameObject;
+				CheckCollision check = (CheckCollision)c.GetComponent (typeof(CheckCollision));
+				check.setClipping (false);
+			}
 		}
 	}
 

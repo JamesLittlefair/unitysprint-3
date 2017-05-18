@@ -20,8 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4550358648172444}
   - component: {fileID: 65710038467077754}
-  - component: {fileID: 65061269025100144}
-  - component: {fileID: 65991664962851688}
   - component: {fileID: 114560291998253576}
   m_Layer: 0
   m_Name: CorridorDiag
@@ -176,7 +174,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1387787796303970}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: -50.00584, y: 46.70249, z: -125.16414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4667820942317000}
@@ -359,18 +357,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!65 &65061269025100144
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1387787796303970}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 7.9, y: 1, z: 7.9}
-  m_Center: {x: 8, y: 0, z: 12}
 --- !u!65 &65342793511324874
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -405,7 +391,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 24.9, y: 1, z: 27.9}
+  m_Size: {x: 23.9, y: 1, z: 31.9}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65935724483869388
 BoxCollider:
@@ -419,18 +405,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65991664962851688
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1387787796303970}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 7.9, y: 1, z: 7.9}
-  m_Center: {x: -8, y: 0, z: -12}
 --- !u!114 &114560291998253576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -442,3 +416,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa3ec65ddb5efd41bb85ae99a55245b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clipping: 0
