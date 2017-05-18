@@ -18,11 +18,15 @@ public class LevelGenerator : MonoBehaviour {
 	public List<Transform> placedModules;
 	private List<Transform> freeExits;
 
+    public Transform treasurePrefab;
+
 	// Use this for initialization
 	void Start () {
 		placedModules = new List<Transform> ();
 		freeExits = new List<Transform> ();
 		startingModule = Instantiate (startRoom1);
+        // Spawn any treasure in the starting room 
+        SpawnTreasure(startRoom1);
 		if (!(startingModule == null)) {
 			freeExits.AddRange (getExits(startingModule));
 			GenerateLevel();
@@ -46,7 +50,9 @@ public class LevelGenerator : MonoBehaviour {
 						moduleExits.Remove (newExit);
 						newExits.AddRange (moduleExits);
 						placedModules.Add (newModule);
-						checkClipping = true;
+                        // Instantiate treasure at treasure spawn point
+                        SpawnTreasure(newModule);
+                        checkClipping = true;
 					}
 					i++;
 				}
@@ -55,6 +61,18 @@ public class LevelGenerator : MonoBehaviour {
 			Iterations++;
 		}
 	}
+
+    // Spawn treasure at a room's treasure spawn point(s)
+    void SpawnTreasure(Transform transform)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.CompareTag("TreasureSpawn"))
+            {
+                Transform treasure = Instantiate(treasurePrefab, child.position, child.rotation);
+            }
+        }
+    }
 
 	IEnumerator wait(){
 		yield return new WaitForSeconds(5);

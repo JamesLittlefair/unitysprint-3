@@ -10,6 +10,7 @@ public class FireTrap : MonoBehaviour {
 	private GameObject fireLight;
 	private bool fireEnabled;
 	public int delay = 0;
+    private GameController gc;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,8 @@ public class FireTrap : MonoBehaviour {
 		fireEnabled = true;
 		i = delay;
 		emissions = fire.GetComponentsInChildren<ParticleSystem> ();
+        // Get reference to gameController to end the game
+        gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 	}
 
 	void Update (){
@@ -43,8 +46,8 @@ public class FireTrap : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other){
-		if (other.tag == "Player") {
-			
+		if (other.tag == "Player" && fireEnabled) {
+            gc.GameOver();
 		}
 	}
 }

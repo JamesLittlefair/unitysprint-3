@@ -10,6 +10,10 @@ TagManager:
   - StartRoom
   - Exit
   - FloorPlan
+  - Fire
+  - TreasureSpawn
+  - TrapSpawn
+  - ScoreText
   layers:
   - Default
   - TransparentFX
