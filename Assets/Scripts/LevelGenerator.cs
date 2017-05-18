@@ -84,7 +84,9 @@ public class LevelGenerator : MonoBehaviour {
         {
             if (child.CompareTag("TrapSpawn"))
             {
-                Transform treasure = Instantiate(trapPrefabs[Random.Range(0,trapPrefabs.Count)], child.position, child.rotation);
+                Transform trap = Instantiate(trapPrefabs[Random.Range(0,trapPrefabs.Count)], child.position, child.rotation);
+                // Fix rotation of fire traps
+                trap.localRotation = new Quaternion(0, 0, 0, 0);
             }
         }
     }

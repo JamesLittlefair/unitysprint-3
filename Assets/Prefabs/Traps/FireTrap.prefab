@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 114855599061284972}
   - component: {fileID: 65943270089982448}
   m_Layer: 0
-  m_Name: FireTrap 1
+  m_Name: FireTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
