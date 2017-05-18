@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
-	private int levelSize = 15;
+	public int levelSize = 100;
 
 	private Transform finalRoom;
 	private Transform startingModule;

@@ -16,6 +16,7 @@ TagManager:
   - Chest
   - PropLarge
   - PropSmall
+  - Controller
   layers:
   - Default
   - TransparentFX
