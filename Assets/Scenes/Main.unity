@@ -237,8 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3d627cd82effb47b44a3ed09e577f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noTraps: 10
-  noChests: 20
   startRoom1: {fileID: 4034182380405352, guid: 430d5afbcae7ef848ac9fbf7d04c791a, type: 2}
   endRoom1: {fileID: 4460078039819768, guid: 2111b2700259eff4aa1b33e84e770b7b, type: 2}
   world: {fileID: 218983098}
@@ -264,7 +262,12 @@ MonoBehaviour:
   - {fileID: 4550358648172444, guid: a93ec818c0748c04b80776eb24b35b54, type: 2}
   - {fileID: 4700329092910032, guid: 7518a9f027c8aad489f98f42183a94ff, type: 2}
   - {fileID: 4315445620950218, guid: 6598e6872c51b9c4ca837022075ebbb4, type: 2}
-  traps: []
+  traps:
+  - {fileID: 4996806728140086, guid: 694d808d4b082a34e8ed058ae763ab70, type: 2}
+  - {fileID: 4882475687093008, guid: 378abe7c47796d54b9512b7e8b87c9f7, type: 2}
+  chest: {fileID: 4365427710189294, guid: 20336ad73ddd50046948419d4df414d0, type: 2}
+  chestLarge: {fileID: 4141739756157492, guid: 9feecf6543893194f9fff6dc15c88cb7, type: 2}
+  chestTrap: {fileID: 4503997595341908, guid: c7736cdaba58e384b8eb51df64c5b92c, type: 2}
 --- !u!4 &729994860
 Transform:
   m_ObjectHideFlags: 0

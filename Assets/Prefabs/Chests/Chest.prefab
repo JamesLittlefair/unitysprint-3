@@ -51,6 +51,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4365427710189294}
+  - component: {fileID: 65212475101452176}
+  - component: {fileID: 114780075219185398}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -91,7 +93,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1845287289137994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.4371667, y: -3.2892654, z: -4.5939627}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4052182635455954}
@@ -137,3 +139,26 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1182693583354046}
   m_Mesh: {fileID: 4300000, guid: c5844ae68fce04ca1aecd79b8ad6e71e, type: 3}
+--- !u!65 &65212475101452176
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1845287289137994}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &114780075219185398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1845287289137994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78913dd9458486b43820dbccd0f8772a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

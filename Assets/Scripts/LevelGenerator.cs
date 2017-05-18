@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
-	private int levelSize = 25;
-	public int noTraps = 10;
-	public int noChests = 20;
+	private int levelSize = 15;
 
 	private Transform finalRoom;
 	private Transform startingModule;
@@ -187,7 +185,37 @@ public class LevelGenerator : MonoBehaviour {
 			}
 		}
 
+		trapLocations = new List<Transform>();
+		GameObject[] array1 = GameObject.FindGameObjectsWithTag ("Trap");
+		for (int i = 0; i < array1.Length; i++) {
+			trapLocations.Add (array1[i].transform);
+		}
 
+		chestLocations = new List<Transform>();
+		GameObject[] array2 = GameObject.FindGameObjectsWithTag ("Chest");
+		for (int i = 0; i < array2.Length; i++) {
+			chestLocations.Add (array2[i].transform);
+		}
+
+		int noTraps = (trapLocations.Count * 100) / 40;
+		for (int i = 0; i < noTraps; i++) {
+			if (!(trapLocations.Count == 0)) {
+				Transform randomTrap = trapLocations [Random.Range (0, trapLocations.Count)];
+				Transform trap = Instantiate (GetRandomTrap ());
+				matchExits (randomTrap, GetRandomExit (getExits (trap)));
+				trapLocations.Remove (randomTrap);
+			}
+		}
+
+		int noChests = (chestLocations.Count * 100) / 70;
+		for (int i = 0; i < noChests; i++) {
+			if (!(chestLocations.Count == 0)) {
+				Transform randomChest = chestLocations [Random.Range (0, chestLocations.Count)];
+				Transform chestModule = Instantiate (chest);
+				matchExits (randomChest, GetRandomExit (getExits (chestModule)));
+				chestLocations.Remove (randomChest);
+			}
+		}
 	}
 
 	void resetGen(){
@@ -207,6 +235,10 @@ public class LevelGenerator : MonoBehaviour {
 		} else {
 			return corridors [Random.Range (0, corridors.Count)];
 		}
+	}
+
+	Transform GetRandomTrap(){
+		return traps [Random.Range (0, traps.Count)];
 	}
 
 	Transform GetRandomExit(List<Transform> e){
