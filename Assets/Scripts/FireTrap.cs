@@ -17,7 +17,7 @@ public class FireTrap : MonoBehaviour {
 		fire = this.transform.Find ("FireComplex").gameObject;
 		fireLight = fire.transform.Find ("Light").gameObject;
 		fireEnabled = true;
-		i = delay;
+        i = 0;
 		emissions = fire.GetComponentsInChildren<ParticleSystem> ();
         // Get reference to gameController to end the game
         gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -25,7 +25,7 @@ public class FireTrap : MonoBehaviour {
 
 	void Update (){
 		i++;
-		if (i == 300) {
+		if (i >= delay) {
 			i = 0;
 			foreach (ParticleSystem e in emissions) {
 				if (fireEnabled) {

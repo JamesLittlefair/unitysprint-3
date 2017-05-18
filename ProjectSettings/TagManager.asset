@@ -15,6 +15,7 @@ TagManager:
   - TrapSpawn
   - ScoreText
   - GameOver
+  - GameWin
   layers:
   - Default
   - TransparentFX

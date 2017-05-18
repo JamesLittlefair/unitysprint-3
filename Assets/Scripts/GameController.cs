@@ -20,6 +20,8 @@ public class GameController : MonoBehaviour
     private Text scoreText;
     // Game over screen
     private GameObject gameOver;
+    // Game win screen
+    private GameObject gameWin;
 
     void Start()
     {
@@ -27,6 +29,8 @@ public class GameController : MonoBehaviour
         scoreText = GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>();
         gameOver = GameObject.FindGameObjectWithTag("GameOver");
         gameOver.SetActive(false);
+        gameWin = GameObject.FindGameObjectWithTag("GameWin");
+        gameWin.SetActive(false);
     }
 
     // Update score GUI text after change
@@ -60,12 +64,24 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    // End the game
+    // End the game (dead)
     public void GameOver()
+    {
+        GameOver(false);
+    }
+
+    public void GameOver(bool win)
     {
         // Disable movement component
         player.enabled = false;
-        // Show game over UI
-        gameOver.SetActive(true);
+        if (win)
+        {
+            // Show game win UI
+            gameWin.SetActive(true);
+        } else
+        {
+            // Show game over UI
+            gameOver.SetActive(true);
+        }
     }
 }

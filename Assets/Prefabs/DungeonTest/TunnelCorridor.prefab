@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 64230924959576434}
   - component: {fileID: 114160978840125570}
   m_Layer: 0
-  m_Name: Tunnel Corridor
+  m_Name: TunnelCorridor
   m_TagString: Corridor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

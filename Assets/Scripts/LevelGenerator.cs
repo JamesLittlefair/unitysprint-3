@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
-	private int levelSize = 5;
+	public int levelSize = 5;
 	private Transform startingModule;
 	private Random rnd;
 	private bool started;
@@ -19,6 +19,7 @@ public class LevelGenerator : MonoBehaviour {
 	private List<Transform> freeExits;
 
     public Transform treasurePrefab;
+    public Transform endTreasurePrefab;
     public List<Transform> trapPrefabs;
 
 	// Use this for initialization
@@ -27,7 +28,7 @@ public class LevelGenerator : MonoBehaviour {
 		freeExits = new List<Transform> ();
 		startingModule = Instantiate (startRoom1);
         // Spawn treasure + traps
-        SpawnTreasure(startRoom1);
+        SpawnRoomTreasure(startRoom1);
         SpawnTraps(startRoom1);
 		if (!(startingModule == null)) {
 			freeExits.AddRange (getExits(startingModule));
@@ -35,44 +36,57 @@ public class LevelGenerator : MonoBehaviour {
 		}
 	}
 
-	void GenerateLevel() {
-		int Iterations = 0;
-		while (Iterations < levelSize) {
-			List<Transform> newExits = new List<Transform> ();
-			foreach (Transform exit in freeExits) {
-				bool checkClipping = false;
-				int i = 0;
-				while ((!checkClipping) && (i < 10)) {
-					Transform newModule = Instantiate (GetRandomModule (exit.parent.tag));
-					List<Transform> moduleExits = getExits (newModule);
-					Transform newExit = GetRandomExit (moduleExits);
-					matchExits (exit, newExit);
-					bool b = checkClip (newModule);
-					if (b) {
-						moduleExits.Remove (newExit);
-						newExits.AddRange (moduleExits);
-						placedModules.Add (newModule);
+    void GenerateLevel() {
+        int Iterations = 0;
+        while (Iterations < levelSize) {
+            List<Transform> newExits = new List<Transform>();
+            foreach (Transform exit in freeExits) {
+                bool checkClipping = false;
+                int i = 0;
+                while ((!checkClipping) && (i < 10)) {
+                    Transform newModule = Instantiate(GetRandomModule(exit.parent.tag));
+                    List<Transform> moduleExits = getExits(newModule);
+                    Transform newExit = GetRandomExit(moduleExits);
+                    matchExits(exit, newExit);
+                    bool b = checkClip(newModule);
+                    if (b) {
+                        moduleExits.Remove(newExit);
+                        newExits.AddRange(moduleExits);
+                        placedModules.Add(newModule);
                         // Instantiate treasure + traps
-                        SpawnTreasure(newModule);
+                        SpawnRoomTreasure(newModule);
                         SpawnTraps(newModule);
                         checkClipping = true;
-					}
-					i++;
-				}
-			}
-			freeExits = newExits;
-			Iterations++;
-		}
+                    }
+                    i++;
+                }
+            }
+            freeExits = newExits;
+            Iterations++;
+        }
+        // Place the end room at a random free exit
+        Transform freeExit = freeExits[Random.Range(0, freeExits.Count)];
+        Transform endRoom = Instantiate(endRoom1);
+        Transform endRoomExit = getExits(endRoom)[0];
+        matchExits(freeExit, endRoomExit);
+        Debug.Log(freeExit.transform.position);
+        // Spawn end treasure
+        SpawnTreasure(endRoom, endTreasurePrefab);
 	}
 
     // Spawn treasure at a room's treasure spawn point(s)
-    void SpawnTreasure(Transform transform)
+    void SpawnRoomTreasure(Transform transform)
+    {
+        SpawnTreasure(transform, treasurePrefab);
+    }
+
+    void SpawnTreasure(Transform transform, Transform prefab)
     {
         foreach (Transform child in transform)
         {
             if (child.CompareTag("TreasureSpawn"))
             {
-                Transform treasure = Instantiate(treasurePrefab, child.position, child.rotation);
+                Transform treasure = Instantiate(prefab, child.position, child.rotation);
             }
         }
     }
@@ -87,6 +101,8 @@ public class LevelGenerator : MonoBehaviour {
                 Transform trap = Instantiate(trapPrefabs[Random.Range(0,trapPrefabs.Count)], child.position, child.rotation);
                 // Fix rotation of fire traps
                 trap.localRotation = new Quaternion(0, 0, 0, 0);
+                // Set delay as random time
+                trap.GetComponent<FireTrap>().delay = Random.Range(30, 300);
             }
         }
     }

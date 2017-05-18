@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TreasureWalkover : MonoBehaviour
 {
+    public bool endTreasure = false;
 
     private GameController gc;
     private AudioSource audioSource;
@@ -22,6 +23,13 @@ public class TreasureWalkover : MonoBehaviour
             gc.IncrementScore();
             audioSource.Play();
             GameObject.Destroy(gameObject);
+
+            // If the end treasure, end the game also
+            if (endTreasure)
+            {
+                Debug.Log("End treasure reached");
+                gc.GameOver(true);
+            }
         }
     }
 }
