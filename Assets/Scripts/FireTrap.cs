@@ -43,8 +43,9 @@ public class FireTrap : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other){
-		if (other.tag == "Player") {
-			
+		if ((other.tag == "Player") && fireEnabled) {
+			Player p = other.GetComponent<Player> ();
+			p.damage (25);
 		}
 	}
 }

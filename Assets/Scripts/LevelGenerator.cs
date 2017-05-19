@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour {
 
-	public int levelSize = 100;
+	public GameController controller;
+
+	public int levelSize = 15;
 
 	private Transform finalRoom;
 	private Transform startingModule;
-	private Random rnd;
 
 	private bool genLevel = false;
 	private bool genFinished = false;
 	private bool checkFinalRoom = false;
+	public bool levelGenerated = false;
 
 	private Transform furtherestExit;
 	private Transform lastPlacedModule;
@@ -31,6 +33,8 @@ public class LevelGenerator : MonoBehaviour {
 	public List<Transform> modules;
 	public List<Transform> corridors;
 	public List<Transform> traps;
+	public List<Transform> propsSmall;
+	public List<Transform> propsLarge;
 
 	public Transform chest;
 	public Transform chestLarge;
@@ -42,13 +46,16 @@ public class LevelGenerator : MonoBehaviour {
 
 	private List<Transform> trapLocations;
 	private List<Transform> chestLocations;
+	private List<Transform> propSmallLocations;
+	private List<Transform> propLargeLocations;
 
 	// Use this for initialization
 	void Start () {
-		GenerateLevel ();
+		//GenerateLevel ();
 	}
 
-	void GenerateLevel() {
+	public void GenerateLevel (int n) {
+		levelSize = n;
 		placedModules = new List<Transform> ();
 		freeExits = new List<Transform> ();
 		finalExits = new List<Transform> ();
@@ -182,6 +189,7 @@ public class LevelGenerator : MonoBehaviour {
 				n++;
 				Debug.Log ("Placing Module " + cap);
 				matchExits (exit, GetRandomExit(getExits(cap)));
+				placedModules.Add (cap);
 			}
 		}
 
@@ -197,6 +205,18 @@ public class LevelGenerator : MonoBehaviour {
 			chestLocations.Add (array2[i].transform);
 		}
 
+		propSmallLocations = new List<Transform>();
+		GameObject[] array3 = GameObject.FindGameObjectsWithTag ("PropSmall");
+		for (int i = 0; i < array3.Length; i++) {
+			propSmallLocations.Add (array3[i].transform);
+		}
+
+		propLargeLocations = new List<Transform>();
+		GameObject[] array4 = GameObject.FindGameObjectsWithTag ("PropLarge");
+		for (int i = 0; i < array4.Length; i++) {
+			propLargeLocations.Add (array4[i].transform);
+		}
+
 		int noTraps = (trapLocations.Count * 100) / 40;
 		for (int i = 0; i < noTraps; i++) {
 			if (!(trapLocations.Count == 0)) {
@@ -204,25 +224,59 @@ public class LevelGenerator : MonoBehaviour {
 				Transform trap = Instantiate (GetRandomTrap ());
 				matchExits (randomTrap, GetRandomExit (getExits (trap)));
 				trapLocations.Remove (randomTrap);
+				placedModules.Add (trap);
 			}
 		}
 
-		int noChests = (chestLocations.Count * 100) / 70;
+		int noChests = (chestLocations.Count * 100) / 80;
 		for (int i = 0; i < noChests; i++) {
-			if (!(chestLocations.Count == 0)) {
+			if (!(propSmallLocations.Count == 0)) {
 				Transform randomChest = chestLocations [Random.Range (0, chestLocations.Count)];
 				Transform chestModule = Instantiate (chest);
 				matchExits (randomChest, GetRandomExit (getExits (chestModule)));
-				chestLocations.Remove (randomChest);
+				propSmallLocations.Remove (randomChest);
+				placedModules.Add (chestModule);
 			}
 		}
+
+		int noPropsSmall = (propSmallLocations.Count * 100) / 80;
+		for (int i = 0; i < noPropsSmall; i++) {
+			if (!(propSmallLocations.Count == 0)) {
+				Transform randomPropSmall = propSmallLocations [Random.Range (0, propSmallLocations.Count)];
+				Transform propSmallModule = Instantiate (GetRandomPropSmall());
+				matchExits (randomPropSmall, GetRandomExit (getExits (propSmallModule)));
+				propSmallLocations.Remove (randomPropSmall);
+				placedModules.Add (propSmallModule);
+			}
+		}
+
+		int noPropsLarge = (propLargeLocations.Count * 100) / 50;
+		for (int i = 0; i < noPropsLarge; i++) {
+			if (!(propLargeLocations.Count == 0)) {
+				Transform randomPropLarge = propLargeLocations [Random.Range (0, propLargeLocations.Count)];
+				Transform propLargeModule = Instantiate (GetRandomPropLarge());
+				matchExits (randomPropLarge, GetRandomExit (getExits (propLargeModule)));
+				propLargeLocations.Remove (randomPropLarge);
+				placedModules.Add (propLargeModule);
+			}
+		}
+		levelGenerated = true;
+		controller.genFinished ();
 	}
 
-	void resetGen(){
+	public void resetGen(){
 		foreach(Transform module in placedModules){
-			DestroyImmediate (module.gameObject);
-			GenerateLevel ();
+			if (!(module == null)) {
+				DestroyImmediate (module.gameObject);
+			}
 		}
+		levelGenerated = false;
+		genLevel = false;
+		genFinished = false;
+		checkFinalRoom = false;
+		Iterations = 0;
+		n = 0;
+		frames = 0;
 	}
 
 	IEnumerator wait(){
@@ -239,6 +293,14 @@ public class LevelGenerator : MonoBehaviour {
 
 	Transform GetRandomTrap(){
 		return traps [Random.Range (0, traps.Count)];
+	}
+
+	Transform GetRandomPropSmall(){
+		return propsSmall [Random.Range (0, propsSmall.Count)];
+	}
+
+	Transform GetRandomPropLarge(){
+		return propsLarge [Random.Range (0, propsLarge.Count)];
 	}
 
 	Transform GetRandomExit(List<Transform> e){
