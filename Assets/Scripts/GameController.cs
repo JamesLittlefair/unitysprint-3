@@ -21,9 +21,13 @@ public class GameController : MonoBehaviour {
 	public Text timeText;
 	private bool gameStarted;
 	private float timef;
+	public AudioClip hurt;
+	public AudioClip treasure;
+	private AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
+		audioSource = GetComponent<AudioSource>();
 		gameStarted = false;
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
@@ -41,8 +45,15 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void addScore(int n) {
+		audioSource.clip = treasure;
+		audioSource.Play();
 		Score += n;
 		scoreCounter.text = Score.ToString();
+	}
+
+	public void playerHurt(){
+		audioSource.clip = hurt;
+		audioSource.Play();
 	}
 
 	void reset(){

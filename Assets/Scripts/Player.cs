@@ -31,6 +31,7 @@ public class Player : MonoBehaviour {
 	public void damage(int n) {
 		health -= n;
 		healthMeter.text = health.ToString();
+		gameController.playerHurt ();
 	}
 
 	void die () {
